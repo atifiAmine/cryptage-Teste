@@ -4,7 +4,7 @@ def cryptage(key_phrase,caractere):
     return resultat
 
 key_phrase = input("Veuillez entrer une clé : ")
-with open("ancien.txt",'r') as fichier :
+with open(r"C:/Users/amine/Downloads",'r') as fichier :
     contenu = fichier.read()
 
 contenu_crypte =""
@@ -15,6 +15,7 @@ for caractere in contenu :
 nouveau_fichier = input("Le fichier est désormais crypté! Veuillez le renommer :")
 with open(nouveau_fichier,'w') as fichier_crypte:
     fichier_crypte.write(contenu_crypte)
+
 
  
      
