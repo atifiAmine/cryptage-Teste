@@ -1,16 +1,26 @@
-import os
-def cryptage():
-    key_phrase = input("Veuillez entrer la clé : ")
-    for i in range(len(key_phrase)):
-        ascii_value = ord(key_phrase[i]) + 65 
-        print(ascii_value)
-with open("text.txt","r") as fichier :
+def cryptage(key_phrase,caractere):
+    ascii_value = ord(caractere) +65
+    resultat = ascii_value
+    return resultat
+
+key_phrase = input("Veuillez entrer une clé : ")
+with open("ancien.txt",'r') as fichier :
     contenu = fichier.read()
-    for caractere in contenu :
-        cryptage()
+
+contenu_crypte =""
+for caractere in contenu : 
+    resultat2 = cryptage(key_phrase,caractere)
+    contenu_crypte = contenu_crypte + chr(resultat2)
+
+nouveau_fichier = input("Le fichier est désormais crypté! Veuillez le renommer :")
+with open(nouveau_fichier,'w') as fichier_crypte:
+    fichier_crypte.write(contenu_crypte)
+
+ 
+     
 
 
-        
+
 
     
 
