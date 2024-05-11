@@ -12,33 +12,31 @@ def parcourir():
     entry_filename.delete(0, END)
     entry_filename.insert(0, filepath)
 
-def cryptage(key_phrase,caractere):
-    ascii_value = ord(caractere) +65
-    resultat = ascii_value
-    return resultat
+def crypter_contenu(contenu, key_phrase):
+    contenu_crypte = ""
+    for caractere in contenu:
+        ascii_value = ord(caractere) + 65
+        resultat = ascii_value
+        contenu_crypte += chr(resultat)
+    return contenu_crypte
 
-key_phrase = input("Veuillez entrer une clé : ")
-with open( parcourir ,'r') as fichier :
-    contenu = fichier.read()
+def crypter_fichier():
+    filepath = entry_filename.get()
+    key_phrase = entry_key.get()
 
-contenu_crypte =""
-for caractere in contenu : 
-    resultat2 = cryptage(key_phrase,caractere)
-    contenu_crypte = contenu_crypte + chr(resultat2)
+    with open(filepath, 'r', encoding="utf-8", errors='ignore') as fichier:
+        contenu = fichier.read()
 
-nouveau_fichier = input("Le fichier est désormais crypté! Veuillez le renommer :")
-with open(nouveau_fichier,'w') as fichier_crypte:
-    fichier_crypte.write(contenu_crypte)
+    contenu_crypte = crypter_contenu(contenu, key_phrase)
 
-    pass
-
-def decrypter():
-    # Code
-    pass
-
+    nouveau_fichier = filedialog.asksaveasfilename(defaultextension=".txt")
+    with open(nouveau_fichier, 'w', encoding="utf-8", errors='ignore') as fichier_crypte:
+        fichier_crypte.write(contenu_crypte)
+#https://www.journaldunet.fr/developpeur/developpement/1441055-corriger-l-erreur-unicodedecodeerror-utf-8-codec-can-t-decode-byte-0xff-in-position-0-invalid-start-byte/
 root = Tk()
-root.geometry('400x300')
-root.title("Cryptage / Décryptage de fichier")
+root.geometry('500x250') #taille fenetre
+root.title("Logiciel de cryptage et de decryptage")
+root.resizable(width=False, height=False) #Pas de pleine écran
 
 # taile img
 crypter_photo = resize_image("cryptage-des-donnees (1).png", 100, 100)
@@ -49,18 +47,18 @@ frame_buttons = Frame(root)
 frame_buttons.pack(pady=10)
 
 # Bouton Crypter
-btn_crypter = Button(frame_buttons, image=crypter_photo, command=crypter)
+btn_crypter = Button(frame_buttons, image=crypter_photo, command=crypter_fichier)
 btn_crypter.pack(side=LEFT, padx=10)
 
 # Bouton Décrypter
-btn_decrypter = Button(frame_buttons, image=decrypter_photo, command=decrypter)
+btn_decrypter = Button(frame_buttons, image=decrypter_photo, command=decrypter_photo)
 btn_decrypter.pack(side=RIGHT, padx=10)
 
 # Cadre pour le parcourir
 frame_file = Frame(root)
 frame_file.pack(pady=10)
 
-label_filename = Label(frame_file, text="Nom du fichier:")
+label_filename = Label(frame_file, text="Sélectionnez le fichier :")
 label_filename.grid(row=0, column=0, padx=5, sticky="w")
 
 entry_filename = Entry(frame_file, width=40)
@@ -73,7 +71,7 @@ btn_parcourir.grid(row=0, column=2, padx=5)
 frame_key = Frame(root)
 frame_key.pack(pady=10)
 
-label_key = Label(frame_key, text="Clé de cryptage:")
+label_key = Label(frame_key, text="Entrez la clé :")
 label_key.grid(row=0, column=0, padx=5, sticky="w")
 
 entry_key = Entry(frame_key, width=40)
