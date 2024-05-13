@@ -1,10 +1,19 @@
 def cryptage(key_phrase,caractere):
-    ascii_value = ord(caractere) +65
-    resultat = ascii_value
-    return resultat
+    ascii_value = ord(caractere) 
+    if 'A' <= caractere <= 'Z':
+        # Convertir le caractère de la clé en valeur ASCII et normaliser sa valeur entre 0 et 25
+        key_value = (ord(key_phrase.upper()) - ord('A')) % 26
+        # Calculer la nouvelle valeur ASCII en ajoutant le décalage défini par la clé
+        nouvelle_ascii_value = (ascii_value - ord('A') + key_value) % 26 + ord('A')
+        # Retourner le caractère correspondant à la nouvelle valeur ASCII
+        return chr(nouvelle_ascii_value)
+    else:
+        # Ne pas crypter les caractères qui ne sont pas des lettres majuscules
+        return caractere
+
 
 key_phrase = input("Veuillez entrer une clé : ")
-with open(r"C:/Users/amine/Downloads",'r') as fichier :
+with open(r"C:\Users\atifi_a\Documents\capteurSR04\projet\fichier.txt",'r') as fichier :
     contenu = fichier.read()
 
 contenu_crypte =""
