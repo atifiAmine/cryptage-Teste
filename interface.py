@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import filedialog
-from PIL import Image, ImageTk
+from PIL import Image, ImageTk 
 
 def resize_image(image_path, width, height):
     original_image = Image.open(image_path)
@@ -46,7 +46,7 @@ decrypter_photo = resize_image("decryptage.png", 100, 100)
 frame_buttons = Frame(root)
 frame_buttons.pack(pady=10)
 
-# Bouton Crypter
+#Btn Crypter
 btn_crypter = Button(frame_buttons, image=crypter_photo, command=crypter_fichier)
 btn_crypter.pack(side=LEFT, padx=10)
 
@@ -82,3 +82,4 @@ btn_quitter = Button(root, text="Quitter", command=root.destroy)
 btn_quitter.pack(side=BOTTOM, pady=10)
 
 root.mainloop()
+#"C:/Program Files/Python311/python.exe" -m pip install Pillow
