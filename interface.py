@@ -54,31 +54,5 @@ btn_crypter.pack(side=LEFT, padx=10)
 btn_decrypter = Button(frame_buttons, image=decrypter_photo, command=decrypter_photo)
 btn_decrypter.pack(side=RIGHT, padx=10)
 
-# Cadre pour le parcourir
-frame_file = Frame(root)
-frame_file.pack(pady=10)
-
-label_filename = Label(frame_file, text="Sélectionnez le fichier :")
-label_filename.grid(row=0, column=0, padx=5, sticky="w")
-
-entry_filename = Entry(frame_file, width=40)
-entry_filename.grid(row=0, column=1, padx=5)
-
-btn_parcourir = Button(frame_file, text="Parcourir", command=parcourir)
-btn_parcourir.grid(row=0, column=2, padx=5)
-
-# Cadre pour la clé de cryptage
-frame_key = Frame(root)
-frame_key.pack(pady=10)
-
-label_key = Label(frame_key, text="Entrez la clé :")
-label_key.grid(row=0, column=0, padx=5, sticky="w")
-
-entry_key = Entry(frame_key, width=40)
-entry_key.grid(row=0, column=1, padx=5)
-
-# Bouton Quitter
-btn_quitter = Button(root, text="Quitter", command=root.destroy)
-btn_quitter.pack(side=BOTTOM, pady=10)
 
 root.mainloop()
