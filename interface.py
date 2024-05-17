@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import filedialog
-from PIL import Image, ImageTk 
+from PIL import Image, ImageTk
 
 def taille_image(image_path, width, height):
     original_image = Image.open(image_path)
