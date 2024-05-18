@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import filedialog
 from PIL import Image, ImageTk
+import os
 
 def taille_image(image_path, width, height):
     original_image = Image.open(image_path)
@@ -11,57 +12,71 @@ def parcourir():
     chemin_fichier = filedialog.askopenfilename()
     entre_nomfichier.delete(0, END)
     entre_nomfichier.insert(0, chemin_fichier)
+    with open(chemin_fichier, 'r', encoding="utf-8", errors="ignore") as fichier:
+        contenu = fichier.read()
+        return contenu
 
 def cryptage_caractere(contenu, cle_phrase):
     contenu_crypte = ""
-    for caractere in contenu:
-        cle_caractere = cle_phrase[caractere % len(cle_phrase)]
-        ascii_value = (ord(caractere) + ord(cle_caractere)) % 256
-        contenu_crypte += chr(ascii_value)
-        nouveau_fichier = filedialog.asksaveasfilename(defaultextension=".txt")
-        with open(nouveau_fichier,'w',encoding="utf-8") as fichier_crypte :
-              fichier_crypte.write(contenu_crypte)
+    cle_length = len(cle_phrase)
 
-def crypter_contenu(contenu, cle_phrase):
-    contenu_crypte = ""
-    for i, caractere in enumerate(contenu):
-        cle_caractere = cle_phrase[i % len(cle_phrase)]
-        ascii_value = (ord(caractere) + ord(cle_caractere)) % 256
+    for i in range(len(contenu)):
+        caractere = contenu[i]
+        cle_caractere = cle_phrase[i % cle_length]
+        ascii_value = (ord(caractere) + ord(cle_caractere))+ 3 
         contenu_crypte += chr(ascii_value)
+
     return contenu_crypte
 
-def decrypter_contenu(contenu, cle_phrase):
-    contenu_decrypte = ""
-    for i, caractere in enumerate(contenu):
-        cle_caractere = cle_phrase[i % len(cle_phrase)]
-        ascii_value = (ord(caractere) - ord(cle_caractere)) % 256
-        contenu_decrypte += chr(ascii_value)
-    return contenu_decrypte
-def crypter_fichier():
+def decryptage_caractere(contenu, cle_phrase):
+    contenu_crypte = ""
+    cle_length = len(cle_phrase)
+
+    for i in range(len(contenu)):
+        caractere = contenu[i]
+        cle_caractere = cle_phrase[i % cle_length]
+        ascii_value = (ord(caractere) - ord(cle_caractere))- 3 
+        contenu_crypte += chr(ascii_value)
+
+    return contenu_crypte
+
+def renommer_decryptfichier():
     chemin_fichier = entre_nomfichier.get()
     cle_phrase = entre_cle.get()
 
+    # Lire le contenu du fichier
     with open(chemin_fichier, 'r', encoding="utf-8", errors='ignore') as fichier:
         contenu = fichier.read()
 
-    contenu_crypte = crypter_contenu(contenu, cle_phrase)
+    contenu_crypte = decryptage_caractere(contenu, cle_phrase)
 
-    nouveau_fichier = filedialog.asksaveasfilename(defaultextension=".txt")
-    with open(nouveau_fichier, 'w', encoding="utf-8", errors='ignore') as fichier_crypte:
+    # Écrire le contenu crypté dans le même fichier
+    with open(chemin_fichier, 'w', encoding="utf-8", errors='ignore') as fichier_crypte:
         fichier_crypte.write(contenu_crypte)
 
-def decrypter_fichier():
+    # Renommer le fichier après l'avoir fermé
+    nouveau_nom = filedialog.asksaveasfilename(defaultextension=".txt")
+    if nouveau_nom:
+        os.rename(chemin_fichier, nouveau_nom)
+
+def renommer_cryptfichier():
     chemin_fichier = entre_nomfichier.get()
     cle_phrase = entre_cle.get()
 
+    # Lire le contenu du fichier
     with open(chemin_fichier, 'r', encoding="utf-8", errors='ignore') as fichier:
         contenu = fichier.read()
 
-    contenu_decrypte = decrypter_contenu(contenu, cle_phrase)
+    contenu_crypte = cryptage_caractere(contenu, cle_phrase)
 
-    nouveau_fichier = filedialog.asksaveasfilename(defaultextension=".txt")
-    with open(nouveau_fichier, 'w', encoding="utf-8", errors='ignore') as fichier_decrypte:
-        fichier_decrypte.write(contenu_decrypte)
+    # Écrire le contenu crypté dans le même fichier
+    with open(chemin_fichier, 'w', encoding="utf-8", errors='ignore') as fichier_crypte:
+        fichier_crypte.write(contenu_crypte)
+
+    # Renommer le fichier après l'avoir fermé
+    nouveau_nom = filedialog.asksaveasfilename(defaultextension=".txt")
+    if nouveau_nom:
+        os.rename(chemin_fichier, nouveau_nom)
 
 root = Tk()
 root.geometry('500x250') # taille fenetre
@@ -77,11 +92,11 @@ cadre_buttons = Frame(root)
 cadre_buttons.pack(pady=10)
 
 # Btn Crypter
-btn_crypter = Button(cadre_buttons, image=crypter_photo, command=crypter_fichier)
+btn_crypter = Button(cadre_buttons, image=crypter_photo, command=renommer_cryptfichier)
 btn_crypter.pack(side=LEFT, padx=10)
 
 # Bouton Décrypter
-btn_decrypter = Button(cadre_buttons, image=decrypter_photo, command=decrypter_fichier)
+btn_decrypter = Button(cadre_buttons, image=decrypter_photo, command=renommer_decryptfichier)
 btn_decrypter.pack(side=RIGHT, padx=10)
 
 # Cadre pour le parcourir
