@@ -13,7 +13,7 @@ def parcourir():
         print(contenu)
 '''
 -on rapelle la fonction "parcourir" et on stcoke dans résultat
--print resultat > on retourne "resultat", soit le contenu du fichier sélectionné 
+-print resultat > on retourne "resultat", soit le contenu du fichier sélectionné pour visualiser ce contenu 
 '''
 resultat= parcourir()
 print (resultat)
