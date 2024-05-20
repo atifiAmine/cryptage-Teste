@@ -84,8 +84,8 @@ root.title("Logiciel de cryptage et de decryptage")
 root.resizable(width=False, height=False) # Pas de pleine écran
 
 # taille img
-crypter_photo = taille_image("cryptage-des-donnees (1).png", 100, 100)
-decrypter_photo = taille_image("decryptage.png", 100, 100)
+crypter_photo = taille_image("./cryptage-des-donnees (1).png", 100, 100)
+decrypter_photo = taille_image("./decryptage.png", 100, 100)
 
 # Cadre pour bouton
 cadre_buttons = Frame(root)
