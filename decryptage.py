@@ -1,38 +1,34 @@
-def cryptage_caractere (caractere):
-    resultat = ord(caractere) + 65 
-    if caractere.isupper():
-        resultat += 32
+def cryptage_caractere(caracteres, cle_phrase):
+    contenu_crypte = ""
+    for i in range(len(caracteres)):
+        caractere = caracteres[i]
+        cle_caractere = cle_phrase[i % len(cle_phrase)]
+        ascii_value = (ord(caractere) + ord(cle_caractere) + 3) 
+        contenu_crypte += chr(ascii_value)
+    return contenu_crypte
 
-    return resultat
+def decryptage_caractere(contenu_crypte, cle_phrase):
+    contenu_decrypte = ""
+    for i in range(len(contenu_crypte)):
+        caractere2 = contenu_crypte[i]
+        cle_caractere2 = cle_phrase[i % len(cle_phrase)]
+        ascii_value = (ord(caractere2) - ord(cle_caractere2) - 3)
+        contenu_decrypte += chr(ascii_value)
+    return contenu_decrypte
 
-caracteres = input("Veuillez entrer des caracteres : ")
-contenu_crypte = ""
-for i in range(len(caracteres)):
-    caractere_crypte = caracteres[i]
-    Resultat = cryptage_caractere(caractere_crypte)
-    contenu_crypte += chr(Resultat)
-print (contenu_crypte)
+# Entrée des caractères et de la clé pour le cryptage
+caracteres = input("Veuillez entrer des caractères : ")
+cle_phrase = input("Veuillez entrer une clé : ")
 
-'''
--fonction decryptage_caracteres() est une fonction pour décrypter les caracteres cryptes dans fonction cryptage_caracteres
--(contenu_crypte) > variable contenant  les caracteres cryptes auparavant
--focntion decryptage_caracteres est  la valeur de contenu_crypte en ascii et soustrait 65 pour trouver valeur d'origine
-return resultat > on retourne ce résultat dans "resultat"
+# Appel de la fonction de cryptage et affichage du résultat
+resultat_crypte = cryptage_caractere(caracteres, cle_phrase)
+print("Le texte crypté est :", resultat_crypte)
 
-'''
-def  decryptage_caracteres(contenu_crypte):
-    resultat = ord(contenu_crypte)- 65
-    return resultat
+# Entrée du texte crypté et de la clé pour le décryptage
+cle_phrase2 = input("Veuillez entrer la même clé de cryptage : ")
 
-'''
-contenu_decrypte> on initialise "contenu-decrype" à un espace vide
-boucle > on rapelle la fonction pour tous le contenu de contenu_crypte, soit pour tous les caracteres cryptes pour qu'ils soient décryptes 
-'''
-contenu_decrypte = ""
-for i in range(len(contenu_crypte)):
-    caractere_decrypte = contenu_crypte[i]
-    Resultat = decryptage_caracteres(caractere_decrypte)
-    contenu_decrypte += chr(Resultat)
-print (contenu_decrypte)
+# Appel de la fonction de décryptage et affichage du résultat
+resultat_decrypte = decryptage_caractere(resultat_crypte, cle_phrase2)
+print("Le texte décrypté est :", resultat_decrypte)
 
 
